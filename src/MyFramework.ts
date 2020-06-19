@@ -24,6 +24,11 @@ class MyFramework{
     {
         return <HTMLElement>evt.target;
     }
+
+    configClick(element:string,listener:EventListenerObject):void{
+        let b:HTMLElement = this.getElementById(element);
+        b.addEventListener("click",listener);
+    }
  
 
     requestGET(url:string,listener:GETResponseListener):void

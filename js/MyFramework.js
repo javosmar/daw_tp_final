@@ -12,6 +12,10 @@ class MyFramework {
     getElementByEvent(evt) {
         return evt.target;
     }
+    configClick(element, listener) {
+        let b = this.getElementById(element);
+        b.addEventListener("click", listener);
+    }
     requestGET(url, listener) {
         let xhr;
         xhr = new XMLHttpRequest();

@@ -55,9 +55,21 @@ class ViewMainPage {
 class Main {
     handleEvent(evt) {
         let sw = this.myf.getElementByEvent(evt);
-        console.log("click en device:" + sw.id);
-        let data = { "id": sw.id, "state": this.view.getSwitchStateById(sw.id) };
-        this.myf.requestPOST("devices", data, this);
+        // Verifico qué elemento del DOM se seleccionó
+        if (sw.id == "buttonTodos") {
+            this.myf.requestGET("ws/devices?filter=0", this); // filtro en la URL de la siguiente manera: /ws/devices?filter=X
+        }
+        else if (sw.id == "buttonLamparas") {
+            this.myf.requestGET("ws/devices?filter=1", this);
+        }
+        else if (sw.id == "buttonCortinas") {
+            this.myf.requestGET("ws/devices?filter=2", this);
+        }
+        else {
+            console.log("click en device:" + sw.id);
+            let data = { "id": sw.id, "state": this.view.getSwitchStateById(sw.id) };
+            this.myf.requestPOST("devices", data, this);
+        }
     }
     handleGETResponse(status, response) {
         if (status == 200) {
@@ -79,6 +91,9 @@ class Main {
     main() {
         this.myf = new MyFramework();
         this.view = new ViewMainPage(this.myf);
+        this.myf.configClick("buttonTodos", this);
+        this.myf.configClick("buttonLamparas", this);
+        this.myf.configClick("buttonCortinas", this);
         this.myf.requestGET("devices", this);
     }
 }
